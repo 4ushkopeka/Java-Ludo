@@ -1,5 +1,6 @@
 package Players;
 
+import Players.Helpers.CoordinateObject;
 import Players.Symbols.ISymbol;
 
 import java.util.ArrayList;
@@ -7,17 +8,23 @@ import java.util.Random;
 
 public interface IPlayer {
 
-    public int rollDice(Random dice);
+    int rollDice(Random dice);
 
-    public void move(int id);
+    void move(int id, int moveNumber);
 
-    public void addPoint();
+    boolean checkFinish(int id);
 
-    public int getPoints();
+    ISymbol getSymbolById(int id);
 
-    public ArrayList<ISymbol> getSymbolsOutOfBase();
+    int getPoints();
 
-    public String getSymbol();
+    ArrayList<ISymbol> getSymbolsOutOfBase();
 
-    public void initiate();
+    ArrayList<ISymbol> getSymbolsInBase();
+
+    String getSymbol();
+
+    CoordinateObject initiate();
+
+    ISymbol getSymbolByCoordinates(CoordinateObject coordinates);
 }
