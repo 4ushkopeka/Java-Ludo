@@ -1,6 +1,10 @@
 package Console;
 
-public interface IConsole {
+import Players.IPlayer;
+
+import java.util.ArrayList;
+
+public interface IGameConsole {
     void print(String message);
 
     String read();
@@ -8,4 +12,6 @@ public interface IConsole {
     void printBoard(String[][] board);
 
     void introduce(int totalPlayers, String[][] board);
+
+    void printScoreboard(ArrayList<IPlayer> players);
 }

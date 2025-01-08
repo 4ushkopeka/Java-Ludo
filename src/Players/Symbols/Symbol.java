@@ -14,6 +14,9 @@ public class Symbol implements ISymbol{
 
     private int posY;
 
+    /**
+     * Base coordinates for the symbol.
+     */
     private final int defaultX;
 
     private final int defaultY;
@@ -38,16 +41,30 @@ public class Symbol implements ISymbol{
         return new CoordinateObject(posX, posY);
     }
 
+    /**
+     * @return the base coordinates of the symbol
+     */
+    @Override
+    public CoordinateObject getDefaultCoordinates() {
+        return new CoordinateObject(defaultX, defaultY);
+    }
+
     @Override
     public void move(CoordinateObject coordinates, CoordinateObject startCoordinates) {
-        this.posX += coordinates.getX();
-        this.posY += coordinates.getY();
+        this.posX = coordinates.getX();
+        this.posY = coordinates.getY();
 
         if(!canTurnToComplete) {
             turnToCompleteLogic(startCoordinates);
         }
     }
 
+    /**
+     * Checks if the symbol has made a complete lap,
+     * allowing it to go for a point if it has.
+     * @param startCoordinates the coordinates that a
+     * symbol from that base is initialised to
+     */
     private void turnToCompleteLogic(CoordinateObject startCoordinates) {
         if(symbol.equals("🔷") && startCoordinates.getX() == posX - 2 && posY < 6) {
             shouldTurnToComplete();
@@ -55,7 +72,7 @@ public class Symbol implements ISymbol{
             shouldTurnToComplete();
         } else if (symbol.equals("⭐") && startCoordinates.getY() == posY + 2 && posX < 6) {
             shouldTurnToComplete();
-        }  else if (symbol.equals("\uD83C\uDF4E") && startCoordinates.getY() == posY + 2 && posX > 8) {
+        }  else if (symbol.equals("\uD83C\uDF4E") && startCoordinates.getY() == posY - 2 && posX > 8) {
             shouldTurnToComplete();
         }
     }
@@ -64,12 +81,20 @@ public class Symbol implements ISymbol{
         canTurnToComplete = true;
     }
 
+    /**
+     * Brings the symbol back to their base.
+     */
     @Override
     public void kick() {
         posX = defaultX;
         posY = defaultY;
     }
 
+    /**
+     *Gets a symbol out of their base.
+     * @param x the x-coordinate to move the symbol to
+     * @param y the y-coordinate to move the symbol to
+     */
     @Override
     public void initiate(int x, int y) {
         posX = x;

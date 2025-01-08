@@ -8,6 +8,8 @@ public interface ISymbol {
 
     CoordinateObject getCoordinates();
 
+    CoordinateObject getDefaultCoordinates();
+
     void move(CoordinateObject coordinates, CoordinateObject startCoordinates);
 
     void kick();

@@ -12,7 +12,7 @@ public interface IPlayer {
 
     void move(int id, int moveNumber);
 
-    void checkFinish(int id);
+    boolean checkFinish(int id);
 
     ISymbol getSymbolById(int id);
 
@@ -20,9 +20,11 @@ public interface IPlayer {
 
     ArrayList<ISymbol> getSymbolsOutOfBase();
 
+    ArrayList<ISymbol> getSymbolsInBase();
+
     String getSymbol();
 
-    void initiate();
+    CoordinateObject initiate();
 
     ISymbol getSymbolByCoordinates(CoordinateObject coordinates);
 }

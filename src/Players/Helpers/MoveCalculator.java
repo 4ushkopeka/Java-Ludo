@@ -2,21 +2,24 @@ package Players.Helpers;
 
 import java.util.ArrayList;
 
+/**
+ * This class aims to aid in calculations regarding the movement.
+ * It should not be instantiated nor inherited.
+ */
 public final class MoveCalculator {
 
     private MoveCalculator() {}
 
+    /**
+     * All outer points that require the symbol to turn in a direction
+     */
     private static final ArrayList<CoordinateObject> turnPoints = new ArrayList<>() {{
-        add(new CoordinateObject(6, 6));
         add(new CoordinateObject(0, 6));
         add(new CoordinateObject(0, 8));
-        add(new CoordinateObject(6, 8));
         add(new CoordinateObject(6, 14));
         add(new CoordinateObject(8, 14));
-        add(new CoordinateObject(8, 8));
         add(new CoordinateObject(14, 8));
         add(new CoordinateObject(14, 6));
-        add(new CoordinateObject(8, 6));
         add(new CoordinateObject(8, 0));
         add(new CoordinateObject(6, 0));
         add(new CoordinateObject(7, 0));
@@ -25,6 +28,9 @@ public final class MoveCalculator {
         add(new CoordinateObject(14, 7));
     }};
 
+    /**
+     * All inner points that require a symbol to turn in a direction
+     */
     private static final ArrayList<CoordinateObject> centerPoints = new ArrayList<>() {{
         add(new CoordinateObject(6, 6));
         add(new CoordinateObject(6, 8));
@@ -32,17 +38,29 @@ public final class MoveCalculator {
         add(new CoordinateObject(8, 8));
     }};
 
+    /**
+     * Directions associated with each inner turning point.
+     * The values' indices correspond to those of the turning points' indices.
+     */
+    private static final ArrayList<String> directionsFromCenterPoints = new ArrayList<>() {
+        {
+            add("up");
+            add("right");
+            add("left");
+            add("down");
+        }};
+
+    /**
+     * Directions associated with each outer turning point.
+     * The values' indices correspond to those of the turning points' indices.
+     */
     private static final ArrayList<String> directionsFromPoints = new ArrayList<>() {{
-        add("up");
         add("right");
         add("down");
-        add("right");
         add("down");
         add("left");
-        add("down");
         add("left");
         add("up");
-        add("left");
         add("up");
         add("right");
         add("right");
@@ -67,10 +85,10 @@ public final class MoveCalculator {
             direction = polishDirection(coordinates, canCompleteTurn);
 
             switch (direction) {
-                case "up" -> coordinates.incrementY();
-                case "right" -> coordinates.incrementX();
-                case "down" -> coordinates.decrementY();
-                default -> coordinates.decrementX();
+                case "up" -> coordinates.decrementX();
+                case "right" -> coordinates.incrementY();
+                case "down" -> coordinates.incrementX();
+                default -> coordinates.decrementY();
             }
 
             checkCenterTiles(coordinates);
@@ -90,19 +108,19 @@ public final class MoveCalculator {
                 .findFirst().orElse(null);
 
         if (match != null) {
-            int index = turnPoints.indexOf(match);
+            int index = centerPoints.indexOf(match);
 
             if (index == 0) {
-                coordinates.incrementY();
+                coordinates.decrementX();
             } else if (index == 1) {
-                coordinates.incrementX();
+                coordinates.incrementY();
             } else if (index == 2) {
                 coordinates.decrementY();
             } else {
-                coordinates.decrementX();
+                coordinates.incrementX();
             }
 
-            direction = directionsFromPoints.get(index);
+            direction = directionsFromCenterPoints.get(index);
         }
     }
 
@@ -111,14 +129,14 @@ public final class MoveCalculator {
      * @return a string, representing the direction.
      */
     private static String getDirection(CoordinateObject coordinates) {
-        if (coordinates.getX() == 6 || coordinates.getX() == 0) {
+        if (coordinates.getX() == 6 || coordinates.getX() == 0 || (coordinates.getX() == 7 && coordinates.getY() > 0 && coordinates.getY() < 6)) {
             return "right";
-        } else if (coordinates.getX() == 8 || coordinates.getX() == 14) {
+        } else if (coordinates.getX() == 8 || coordinates.getX() == 14|| (coordinates.getX() == 7 && coordinates.getY() > 8 && coordinates.getY() < 14)) {
             return "left";
         } else {
-            if (coordinates.getY() == 6 || coordinates.getY() == 0) {
+            if (coordinates.getY() == 6 || coordinates.getY() == 0 || (coordinates.getY() == 7 && coordinates.getX() < 14 && coordinates.getX() > 8)) {
                 return "up";
-            } else  {
+            } else {
                 return "down";
             }
         }
@@ -141,7 +159,7 @@ public final class MoveCalculator {
             if(canCompleteTurn) {
                 return directionsFromPoints.get(index);
             } else {
-                if(index > 11) {
+                if(index > 7) {
                     return  direction;
                 } else {
                     return directionsFromPoints.get(index);

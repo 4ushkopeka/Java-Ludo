@@ -1,10 +1,10 @@
 package Game;
 
 import Console.ConsoleAdapter;
-import Console.IConsole;
+import Console.IGameConsole;
 
 public abstract class GameEngine {
-    protected IConsole console;
+    protected IGameConsole console;
 
     protected String[][] board;
 
