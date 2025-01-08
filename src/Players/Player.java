@@ -117,25 +117,25 @@ public class Player implements IPlayer{
 
     private void setSymbols(String symbol) {
         switch (symbol) {
-            case "🔷" -> symbols = new ArrayList<ISymbol>() {{
+            case "🔷" -> symbols = new ArrayList<>() {{
                 add(new Symbol(symbol, 2, 2, 1));
                 add(new Symbol(symbol, 2, 3, 2));
                 add(new Symbol(symbol, 3, 2, 3));
                 add(new Symbol(symbol, 3, 3, 4));
             }};
-            case "\uD83C\uDF4E" -> symbols = new ArrayList<ISymbol>() {{
+            case "\uD83C\uDF4E" -> symbols = new ArrayList<>() {{
                 add(new Symbol(symbol, 2, 11, 1));
                 add(new Symbol(symbol, 2, 12, 3));
                 add(new Symbol(symbol, 3, 11, 2));
                 add(new Symbol(symbol, 3, 12, 4));
             }};
-            case "⭐" -> symbols = new ArrayList<ISymbol>() {{
+            case "⭐" -> symbols = new ArrayList<>() {{
                 add(new Symbol(symbol, 11, 2, 1));
                 add(new Symbol(symbol, 11, 3, 2));
                 add(new Symbol(symbol, 12, 2, 3));
                 add(new Symbol(symbol, 12, 3, 4));
             }};
-            default -> symbols = new ArrayList<ISymbol>() {{
+            default -> symbols = new ArrayList<>() {{
                 add(new Symbol(symbol, 11, 11, 1));
                 add(new Symbol(symbol, 11, 12, 3));
                 add(new Symbol(symbol, 12, 11, 2));

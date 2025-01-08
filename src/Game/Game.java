@@ -42,7 +42,7 @@ public class Game extends GameEngine {
         int moveNumber = currentPlayer.rollDice(dice);
         console.print("Player " + currentPlayer.getSymbol() + " rolled " + moveNumber + "!");
         boolean shouldRotate = true;
-        Integer id = null;
+        Integer id;
 
         ArrayList<ISymbol> outSymbols = currentPlayer.getSymbolsOutOfBase();
 
@@ -78,7 +78,7 @@ public class Game extends GameEngine {
      */
     private boolean tryKick(ISymbol currentSymbol) {
 
-        ArrayList<IPlayer> EnemyPlayers = new ArrayList<IPlayer>(players.subList(1, players.size()));
+        ArrayList<IPlayer> EnemyPlayers = new ArrayList<>(players.subList(1, players.size()));
 
         for (IPlayer player : EnemyPlayers) {
             ISymbol enemySymbol = player.getSymbolByCoordinates(currentSymbol.getCoordinates());
