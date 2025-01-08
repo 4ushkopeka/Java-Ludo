@@ -98,7 +98,7 @@ public class Game extends GameEngine {
                         + currentSymbol.getSymbol()
                         + " kicked player "
                         + enemySymbol.getSymbol()
-                        + "'s symbol with id"
+                        + "'s symbol with id "
                         + enemySymbol.getId() + "!");
                 return true;
             }
@@ -131,7 +131,6 @@ public class Game extends GameEngine {
         ArrayList<IPlayer> scoredPlayers = players
                 .stream()
                 .filter(p -> p.getPoints() > 0)
-                .sorted()
                 .collect(Collectors.toCollection(ArrayList::new));
         if (!scoredPlayers.isEmpty()) {
             scoredPlayers.sort(Comparator.comparingInt(IPlayer::getPoints));
