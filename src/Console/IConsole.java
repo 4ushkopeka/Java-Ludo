@@ -1,11 +1,11 @@
 package Console;
 
 public interface IConsole {
-    public void print(String message);
+    void print(String message);
 
-    public String read();
+    String read();
 
-    public void printBoard(String[][] board);
+    void printBoard(String[][] board);
 
-    public void introduce(int totalPlayers, String[][] board);
+    void introduce(int totalPlayers, String[][] board);
 }

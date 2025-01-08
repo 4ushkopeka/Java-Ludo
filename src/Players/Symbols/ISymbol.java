@@ -1,20 +1,22 @@
 package Players.Symbols;
 
+import Players.Helpers.CoordinateObject;
+
 public interface ISymbol {
 
-    public String getSymbol();
+    String getSymbol();
 
-    public int getPosX();
+    CoordinateObject getCoordinates();
 
-    public int getPosY();
+    void move(CoordinateObject coordinates, CoordinateObject startCoordinates);
 
-    public void move(int dx, int dy);
+    void kick();
 
-    public void kick();
+    void initiate(int x, int y);
 
-    public void initiate(int x, int y);
+    boolean isOut();
 
-    public boolean isOut();
+    int getId();
 
-    public int getId();
+    boolean canTurnToComplete();
 }

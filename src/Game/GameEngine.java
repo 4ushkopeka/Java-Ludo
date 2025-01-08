@@ -17,13 +17,17 @@ public abstract class GameEngine {
     }
 
     private void step() {
-        this.move();
+        this.update();
+        this.visualise();
+
         if (!this.end()) {
             this.step();
         }
     }
 
-    protected abstract void move();
+    protected abstract void update();
+
+    protected abstract void visualise();
 
     protected abstract boolean end();
 

@@ -68,6 +68,7 @@ public class ConsoleAdapter implements IConsole {
         this.print("to reach these tiles with all their symbols wins.");
         this.print("If a player lands on a tile that is occupied by another");
         this.print("player, they kick the current player to their base and keep the spot.");
+        this.print("The current player also gets to roll the dice again.");
         this.print("On ⬛ a player cannot be kicked. These tiles are safe.");
         this.print("Players get to roll the dice again if they roll 6.");
         this.print("To get out of base, a player must roll a 6.");

@@ -1,8 +1,12 @@
 package Players.Symbols;
 
+import Players.Helpers.CoordinateObject;
+
 public class Symbol implements ISymbol{
 
     private final String symbol;
+
+    private boolean canTurnToComplete;
 
     private final int id;
 
@@ -20,27 +24,44 @@ public class Symbol implements ISymbol{
         this.defaultY = posY;
         this.posX = posX;
         this.posY = posY;
+        canTurnToComplete = false;
         this.id = id;
     }
+
     @Override
     public String getSymbol() {
         return symbol;
     }
 
     @Override
-    public int getPosX() {
-        return posX;
+    public CoordinateObject getCoordinates() {
+        return new CoordinateObject(posX, posY);
     }
 
     @Override
-    public int getPosY() {
-        return posY;
+    public void move(CoordinateObject coordinates, CoordinateObject startCoordinates) {
+        this.posX += coordinates.getX();
+        this.posY += coordinates.getY();
+
+        if(!canTurnToComplete) {
+            turnToCompleteLogic(startCoordinates);
+        }
     }
 
-    @Override
-    public void move(int posX, int posY) {
-        this.posX += posX;
-        this.posY += posY;
+    private void turnToCompleteLogic(CoordinateObject startCoordinates) {
+        if(symbol.equals("🔷") && startCoordinates.getX() == posX - 2 && posY < 6) {
+            shouldTurnToComplete();
+        } else if (symbol.equals("\uD83C\uDF4F") && startCoordinates.getX() == posX + 2 && posY > 8) {
+            shouldTurnToComplete();
+        } else if (symbol.equals("⭐") && startCoordinates.getY() == posY + 2 && posX < 6) {
+            shouldTurnToComplete();
+        }  else if (symbol.equals("\uD83C\uDF4E") && startCoordinates.getY() == posY + 2 && posX > 8) {
+            shouldTurnToComplete();
+        }
+    }
+
+    private void shouldTurnToComplete() {
+        canTurnToComplete = true;
     }
 
     @Override
@@ -63,5 +84,10 @@ public class Symbol implements ISymbol{
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public boolean canTurnToComplete() {
+        return canTurnToComplete;
     }
 }

@@ -1,5 +1,7 @@
 package Players;
 
+import Players.Helpers.CoordinateObject;
+import Players.Helpers.MoveCalculator;
 import Players.Symbols.ISymbol;
 import Players.Symbols.Symbol;
 
@@ -30,13 +32,52 @@ public class Player implements IPlayer{
     }
 
     @Override
-    public void move(int id) {
+    public void move(int id, int moveNumber) {
+        ISymbol symbol = getSymbolById(id);
 
+        assert symbol != null;
+        CoordinateObject newCoordinates = MoveCalculator
+                .calculate(symbol.getCoordinates()
+                , moveNumber, symbol.canTurnToComplete());
+
+        symbol.move(newCoordinates, new CoordinateObject(startX, startY));
     }
 
     @Override
-    public void addPoint() {
+    public ISymbol getSymbolById(int id) {
+        return symbols.stream()
+                .filter(s -> s.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public void checkFinish(int id) {
+        ISymbol currentSymbol = getSymbolById(id);
+        CoordinateObject symbolCoordinates = currentSymbol.getCoordinates();
+
+        if(getSymbol().equals("🔷")) {
+            if(symbolCoordinates.getX() == 7 && (symbolCoordinates.getY() >= 6 && symbolCoordinates.getY() < 14)) {
+                addPoints(currentSymbol);
+            }
+        } else if (getSymbol().equals("\uD83C\uDF4F")) {
+            if(symbolCoordinates.getX() == 7 && (symbolCoordinates.getY() <= 8 && symbolCoordinates.getY() > 0)) {
+                addPoints(currentSymbol);
+            }
+        } else if (getSymbol().equals("⭐")) {
+            if(symbolCoordinates.getY() == 7 && (symbolCoordinates.getX() >= 6 && symbolCoordinates.getX() < 14)) {
+                addPoints(currentSymbol);
+            }
+        }  else if (getSymbol().equals("\uD83C\uDF4E")) {
+            if(symbolCoordinates.getY() == 7 && (symbolCoordinates.getX() <= 8 && symbolCoordinates.getX() > 0)) {
+                addPoints(currentSymbol);
+            }
+        }
+    }
+
+    private void addPoints(ISymbol symbol) {
         points++;
+        symbols.remove(symbol);
     }
 
     @Override
@@ -46,7 +87,10 @@ public class Player implements IPlayer{
 
     @Override
     public ArrayList<ISymbol> getSymbolsOutOfBase() {
-        return (ArrayList<ISymbol>) symbols.stream().filter(ISymbol::isOut).collect(Collectors.toList());
+        return (ArrayList<ISymbol>) symbols
+                .stream()
+                .filter(ISymbol::isOut)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -60,6 +104,15 @@ public class Player implements IPlayer{
                 .filter(symbol -> !symbol.isOut())
                 .findFirst()
                 .ifPresent(symbol -> symbol.initiate(startX, startY));
+    }
+
+    @Override
+    public ISymbol getSymbolByCoordinates(CoordinateObject coordinates) {
+        return this.getSymbolsOutOfBase()
+                .stream()
+                .filter(symbol -> symbol.getCoordinates().equals(coordinates))
+        .findFirst()
+        .orElse(null);
     }
 
     private void setSymbols(String symbol) {
