@@ -38,28 +38,52 @@ In our project, the **Adapter Pattern** was implemented to ensure flexibility be
 
 ### Code Example
 ```java
-// Interface defining console interactions
-public interface IGameConsole {
-    void print(String message);
-    String readInput();
+
+```
+
+---
+
+## Builder Design Pattern
+### What is a Builder?
+The Builder Pattern is a creational design pattern that separates the construction of a complex object from its representation. It provides a step-by-step approach to building an object.
+
+![images/builder.png](builder/img.png)
+
+###  Why We Used It
+In our project, the Builder Pattern is used to simplify the creation and initialization of the game board. Instead of leaving the complex board setup logic in the GameEngine, we use a dedicated BoardBuilder class to construct the board in a modular and reusable way. 
+Shortly, the GameEngine delegates board construction to the BoardBuilder, making the engine focused on gameplay logic.
+
+### Implementation Overview
+**BoardBuilder.java**:
+- A dedicated builder class to construct the board step by step.
+- It includes methods for initializing bases, rows, columns, and special tiles.
+
+**GameEngine.java**:
+- The engine uses the BoardBuilder to create the game board, ensuring the engine code remains clean and focused.
+
+### Code Example
+Using the Builder in GameEngine
+```java
+protected void initializeBoard(int players) {
+if (players < 2 || players > 4) {
+console.print("Invalid number of players!");
+console.print("Game is closing.");
+System.exit(0);
 }
 
-// Adapter implementation
-import java.util.Scanner;
-public class ConsoleAdapter implements IGameConsole {
-    private Scanner scanner = new Scanner(System.in);
-
-    @Override
-    public void print(String message) {
-        System.out.println(message);
-    }
-
-    @Override
-    public String readInput() {
-        return scanner.nextLine();
-    }
+    BoardBuilder builder = new BoardBuilder();
+    board = builder
+        .initialize(15)
+        .initializeBases(players)
+        .initializeCommonRows()
+        .initializeCenter()
+        .initializeCommonColumns()
+        .initializeSpecialTiles()
+        .build();
 }
 ```
+
+---
 
 ## Upcoming Design Patterns
 We plan to implement the following patterns:
