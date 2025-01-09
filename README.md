@@ -1,4 +1,18 @@
 # Console Ludo Game
+![images/main02.webp](images/main02.webp)
+
+## Table of Contents
+- [About Us and the Project](#about-us-and-the-project)
+- [Game Rules](#game-rules)
+- [Implemented Design Patterns](#implemented-design-patterns)
+    - [Adapter Design Pattern](#adapter-design-pattern)
+    - [Builder Design Pattern](#builder-design-pattern)
+    - [Facade Design Pattern](#facade-design-pattern)
+    - [Dice Singleton Pattern](#dice-singleton-pattern)
+    - [Visitor Pattern in the Game](#visitor-pattern-in-the-game)
+- [How to Run](#how-to-run)
+- [Authors](#authors)
+- [License](#license)
 
 ## About us and the project
 We, **Georgi Chitarliev** and **Silvia Popova**, are software engineering students who created a **console-based Ludo game in Java**. This project demonstrates object-oriented programming principles and implements several **design patterns** to ensure modularity, scalability, and maintainability.
@@ -13,15 +27,6 @@ We, **Georgi Chitarliev** and **Silvia Popova**, are software engineering studen
 - Rolling a **6** grants another turn.
 - Players must roll a **6** to move out of their base.
 - The first player to move all symbols to the goal wins.
-
----
-
-## Implemented Design Patterns
-Our project currently implements several **design patterns**:
-* Adapter Pattern - Structural Design pattern
-* Facade Pattern - Structural Design pattern
-* Builder Pattern - Creational Design pattern
-* Singleton Pattern - Creational Design pattern
 
 ---
 
@@ -107,6 +112,24 @@ The Dice class is implemented as a singleton, ensuring that there is only one in
 * A static variable holds the single instance of the class.
 * A getInstance method provides a way to access the instance.
 * The singleton uses a Random object to generate dice rolls consistently.
+
+---
+
+## Visitor Pattern in the Game
+### What is it?
+The Visitor pattern is a behavioral design pattern that lets you separate algorithms from the objects on which they operate. It introduces a way to perform operations on elements of an object structure without modifying their classes.
+![images/visitor.png](images/visitor.png)
+
+### Why Use it?
+The visitor design pattern keeps core classes like IPlayer and ISymbol focused on their responsibilities by moving operation logic to separate visitor classes.
+New operations can be added without altering the core classes.
+It also enables different operations to be performed on the same objects in a flexible way.
+In our case, the visitor is used during operations like calculating scores for all players.
+
+### Implementation Overview
+* Visitor Interface - Defines methods for visiting different types of elements, such as IPlayer and ISymbol.
+* Concrete Visitors - Implement specific operations, like calculating total scores (ScoreCalculatorVisitor) or checking player states (StateCheckerVisitor).
+* Accept Method - Added to IPlayer and ISymbol interfaces to allow them to accept a Visitor.
 
 ---
 
