@@ -92,14 +92,17 @@ public class BoardBuilder {
      * @param playerTile - The tile symbol for the player's base.
      */
     private void generateBaseTiles(int startRowPos, int startColPos, String playerTile) {
+        int symbolCount = 0;
         for (int i = startRowPos; i < startRowPos + 6; i++) {
             for (int j = startColPos; j < startColPos + 6; j++) {
                 if (i == startRowPos || i == startRowPos + 5 || j == startColPos || j == startColPos + 5) {
                     board[i][j] = "\uD83D\uDD33";
-                } else if ((i == startRowPos + 1 || i == startRowPos + 4) && (j == startColPos + 1 || j == startColPos + 4)) {
-                    board[i][j] = "⬜";
-                } else {
+                } else if (symbolCount < 4 && (i > startRowPos + 1 && i < startRowPos + 4)
+                        && (j > startColPos + 1 && j < startColPos + 4)) {
                     board[i][j] = playerTile;
+                    symbolCount++;
+                } else {
+                    board[i][j] = "⬜";
                 }
             }
         }
