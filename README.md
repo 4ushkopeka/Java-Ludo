@@ -17,7 +17,11 @@ We, **Georgi Chitarliev** and **Silvia Popova**, are software engineering studen
 ---
 
 ## Implemented Design Patterns
-Our project currently implements several **design patterns**, starting with the **Adapter Pattern**. More patterns will be added, including **Behavioral**, **Structural**, and **Creational** types.
+Our project currently implements several **design patterns**:
+* Adapter Pattern - Structural Design pattern
+* Facade Pattern - Structural Design pattern
+* Builder Pattern - Creational Design pattern
+* Singleton Pattern - Creational Design pattern
 
 ---
 
@@ -42,7 +46,7 @@ In our project, the **Adapter Pattern** was implemented to ensure flexibility be
 ### What is a Builder?
 The Builder Pattern is a creational design pattern that separates the construction of a complex object from its representation. It provides a step-by-step approach to building an object.
 
-![images/builder.png](builder/img.png)
+![images/builder.png](images/builder.png)
 
 ###  Why We Used It
 In our project, the Builder Pattern is used to simplify the creation and initialization of the game board. Instead of leaving the complex board setup logic in the GameEngine, we use a dedicated BoardBuilder class to construct the board in a modular and reusable way. 
@@ -62,7 +66,7 @@ Shortly, the GameEngine delegates board construction to the BoardBuilder, making
 ### What is it?
 The Facade Design Pattern is a structural design pattern that provides a unified and simplified interface to a set of interfaces in a subsystem. It acts as a facade, or front-facing interface, to hide the complexities of the underlying subsystem and provide a cleaner, more user-friendly API.
 
-![images/facade.png](facade/img.png)
+![images/facade.png](images/facade.png)
 
 ### Why Use it?
 In this project, the Facade Design Pattern is used to encapsulate the complexities of managing the game board. Using the Facade has the following benefits:
@@ -81,6 +85,28 @@ The GameEngine calls BoardFacade.initializeBoard() to create the board with all 
 During gameplay, the Game class calls BoardFacade.modifyBoard() to update the board based on symbol movements and player actions. This ensures the board reflects the current game state.
 
 The Game class retrieves the current board state using BoardFacade.getBoard() and passes it to the ConsoleAdapter for display.
+
+---
+
+## Dice Singleton Pattern
+### What is the Singleton Pattern?
+The Singleton Pattern is a creational design pattern that ensures a class has only one instance while providing a global access point to it. This pattern is particularly useful when exactly one object is required to coordinate actions across the system.
+
+![images/singleton.png](images/singleton.png)
+
+### Why Use the Singleton Pattern for Dice?
+In our Ludo game, the dice plays a central role in determining the gameplay dynamics.
+All players share the same source of randomness - uniform gameplay behavior.
+This singleton class also eliminates the need to create multiple Random objects, optimizing memory usage and performance. Furthermore, 
+the dice can be easily accessed and controlled globally, simplifying the game logic.
+
+### Implementation Overview
+The Dice class is implemented as a singleton, ensuring that there is only one instance of the dice shared across the game. Generally how it works:
+
+* Its constructor is private to prevent direct instantiation of the class.
+* A static variable holds the single instance of the class.
+* A getInstance method provides a way to access the instance.
+* The singleton uses a Random object to generate dice rolls consistently.
 
 ---
 
