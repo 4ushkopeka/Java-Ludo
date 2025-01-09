@@ -27,11 +27,6 @@ public class Player implements IPlayer{
     }
 
     @Override
-    public int rollDice(Random dice) {
-        return dice.nextInt(6) + 1;
-    }
-
-    @Override
     public void move(int id, int moveNumber) {
         ISymbol symbol = getSymbolById(id);
 

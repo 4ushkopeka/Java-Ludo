@@ -1,7 +1,6 @@
 package Game;
 
-
-import Game.Helpers.BoardFacade;
+import Game.Helpers.Dice;
 import Players.Helpers.CoordinateObject;
 import Players.IPlayer;
 import Players.Player;
@@ -13,8 +12,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Game extends GameEngine {
-
-    private final Random dice;
+    private final Dice dice;
 
     private CoordinateObject pastCoordinates;
 
@@ -38,7 +36,7 @@ public class Game extends GameEngine {
 
         super.initializeBoard(totalPlayers);
 
-        dice = new Random();
+        dice = Dice.getInstance(); // Initializes Dice singleton class - design pattern
 
         super.initializeBoard(totalPlayers);
 
@@ -51,7 +49,7 @@ public class Game extends GameEngine {
     @Override
     protected void update() {
         IPlayer currentPlayer = players.get(0);
-        int moveNumber = currentPlayer.rollDice(dice);
+        int moveNumber = dice.roll();
         console.print("Player " + currentPlayer.getSymbol() + " rolled " + moveNumber + "!");
         boolean shouldRotate = true;
         Integer id;

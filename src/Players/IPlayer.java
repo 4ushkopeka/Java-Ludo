@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public interface IPlayer {
-
-    int rollDice(Random dice);
-
     void move(int id, int moveNumber);
 
     boolean checkFinish(int id);
