@@ -1,6 +1,7 @@
 package Game;
 
-import Game.Helpers.BoardModifier;
+
+import Game.Helpers.BoardFacade;
 import Players.Helpers.CoordinateObject;
 import Players.IPlayer;
 import Players.Player;
@@ -38,6 +39,8 @@ public class Game extends GameEngine {
         super.initializeBoard(totalPlayers);
 
         dice = new Random();
+
+        super.initializeBoard(totalPlayers);
 
         console.introduce(totalPlayers, board);
         this.initializePlayers(totalPlayers);
@@ -126,7 +129,7 @@ public class Game extends GameEngine {
                 .flatMap(player -> player.getSymbolsInBase().stream())
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        BoardModifier.modifyBoard(board, allOutSymbols, allinSymbols, pastCoordinates);
+        boardFacade.modifyBoard(allOutSymbols, allinSymbols, pastCoordinates);
 
         ArrayList<IPlayer> scoredPlayers = players
                 .stream()
@@ -136,7 +139,8 @@ public class Game extends GameEngine {
             scoredPlayers.sort(Comparator.comparingInt(IPlayer::getPoints));
             console.printScoreboard(scoredPlayers);
         }
-        console.printBoard(board);
+
+        console.printBoard(boardFacade.getBoard());
         console.print("\n");
     }
 

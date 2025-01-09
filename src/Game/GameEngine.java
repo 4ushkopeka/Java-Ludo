@@ -2,14 +2,16 @@ package Game;
 
 import Console.ConsoleAdapter;
 import Console.IGameConsole;
-import Game.Helpers.BoardBuilder;
+import Game.Helpers.BoardFacade;
 
 public abstract class GameEngine {
     protected IGameConsole console;
+    protected BoardFacade boardFacade;
     protected String[][] board;
 
     public GameEngine() {
         console = new ConsoleAdapter();
+        boardFacade = new BoardFacade();
     }
 
     public void start() {
@@ -38,14 +40,6 @@ public abstract class GameEngine {
             System.exit(0);
         }
 
-        BoardBuilder builder = new BoardBuilder();
-        board = builder
-                .initialize(15)
-                .initializeBases(players)
-                .initializeCommonRows()
-                .initializeCenter()
-                .initializeCommonColumns()
-                .initializeSpecialTiles()
-                .build();
+        board = boardFacade.initializeBoard(15, players);
     }
 }
