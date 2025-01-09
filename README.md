@@ -36,11 +36,6 @@ In our project, the **Adapter Pattern** was implemented to ensure flexibility be
 - **IGameConsole.java** defines the required methods for input and output operations.
 - The **ConsoleAdapter** class implements **IGameConsole**, providing methods such as `print()` and `readInput()` to interact with users via the console.
 
-### Code Example
-```java
-
-```
-
 ---
 
 ## Builder Design Pattern
@@ -61,37 +56,31 @@ Shortly, the GameEngine delegates board construction to the BoardBuilder, making
 **GameEngine.java**:
 - The engine uses the BoardBuilder to create the game board, ensuring the engine code remains clean and focused.
 
-### Code Example
-Using the Builder in GameEngine
-```java
-protected void initializeBoard(int players) {
-if (players < 2 || players > 4) {
-console.print("Invalid number of players!");
-console.print("Game is closing.");
-System.exit(0);
-}
-
-    BoardBuilder builder = new BoardBuilder();
-    board = builder
-        .initialize(15)
-        .initializeBases(players)
-        .initializeCommonRows()
-        .initializeCenter()
-        .initializeCommonColumns()
-        .initializeSpecialTiles()
-        .build();
-}
-```
-
 ---
 
-## Upcoming Design Patterns
-We plan to implement the following patterns:
-1. **State Pattern** *(Behavioral)* - To handle different player states such as "waiting," "rolling dice," and "moving pieces."  
-2. **Builder Pattern** *(Creational)* - To simplify the creation of complex board configurations and setups.  
-3. **Observer Pattern** *(Behavioral)* - To manage notifications for player actions and game events.  
-4. **Singleton Pattern** *(Creational)* - To ensure a single instance of the **GameEngine**.  
-5. **Composite Pattern** *(Structural)* - To group and manipulate board elements like symbols and tiles uniformly.  
+## Facade Design Pattern
+### What is it?
+The Facade Design Pattern is a structural design pattern that provides a unified and simplified interface to a set of interfaces in a subsystem. It acts as a facade, or front-facing interface, to hide the complexities of the underlying subsystem and provide a cleaner, more user-friendly API.
+
+![images/facade.png](facade/img.png)
+
+### Why Use it?
+In this project, the Facade Design Pattern is used to encapsulate the complexities of managing the game board. Using the Facade has the following benefits:
+- It keeps the Game and GameEngine classes focused on game flow rather than board operations.
+- It hides the details of BoardBuilder and BoardModifier from the main game classes, improving modularity.
+- It also allows changes to the board logic can be confined to the BoardFacade and its associated classes, minimizing the impact on the rest of the codebase.
+
+### Implementation Overview
+The GameEngine class delegates all board-related operations to the BoardFacade.
+The Game class uses the BoardFacade for board initialization and modification, ensuring that the game flow remains decoupled from board management.
+How It Works in the Project
+Board Initialization:
+
+The GameEngine calls BoardFacade.initializeBoard() to create the board with all its components using the BoardBuilder.
+
+During gameplay, the Game class calls BoardFacade.modifyBoard() to update the board based on symbol movements and player actions. This ensures the board reflects the current game state.
+
+The Game class retrieves the current board state using BoardFacade.getBoard() and passes it to the ConsoleAdapter for display.
 
 ---
 
