@@ -1,6 +1,7 @@
 package Game;
 
 import Game.Helpers.Dice;
+import Game.Visitors.ScoreCalculatorVisitor;
 import Players.Helpers.CoordinateObject;
 import Players.IPlayer;
 import Players.Player;
@@ -119,6 +120,16 @@ public class Game extends GameEngine {
 
     @Override
     protected void visualise() {
+        ScoreCalculatorVisitor scoreCalculator = new ScoreCalculatorVisitor();
+
+        // Let the visitor calculate the score for all players
+        for (IPlayer player : players) {
+            player.acceptVisitor(scoreCalculator);
+        }
+
+        int totalScore = scoreCalculator.getTotalScore();
+        console.print("Total score of all players: " + totalScore);
+
         ArrayList<ISymbol> allOutSymbols = players.stream()
                 .flatMap(player -> player.getSymbolsOutOfBase().stream())
                 .collect(Collectors.toCollection(ArrayList::new));

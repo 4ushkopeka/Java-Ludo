@@ -1,5 +1,7 @@
 package Players;
 
+import Game.Visitors.Visitor;
+
 import Players.Helpers.CoordinateObject;
 import Players.Helpers.MoveCalculator;
 import Players.Symbols.ISymbol;
@@ -24,6 +26,11 @@ public class Player implements IPlayer{
         this.startY = startY;
         points = 0;
         setSymbols(symbol);
+    }
+
+    @Override
+    public void acceptVisitor(Visitor visitor) {
+        visitor.visitPlayer(this);
     }
 
     @Override
