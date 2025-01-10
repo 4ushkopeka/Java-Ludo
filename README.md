@@ -1,5 +1,6 @@
 # Console Ludo Game
 ![images/main02.webp](images/main02.webp)
+ - The game repository: [Java Ludo](https://github.com/4ushkopeka/Java-Ludo)
 
 ## Table of Contents
 - [About Us and the Project](#about-us-and-the-project)
