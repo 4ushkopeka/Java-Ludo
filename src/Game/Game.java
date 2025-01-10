@@ -1,6 +1,7 @@
 package Game;
 
-import Game.Helpers.BoardModifier;
+import Game.Helpers.Dice;
+import Game.Visitors.ScoreCalculatorVisitor;
 import Players.Helpers.CoordinateObject;
 import Players.IPlayer;
 import Players.Player;
@@ -12,8 +13,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Game extends GameEngine {
-
-    private final Random dice;
+    private final Dice dice;
 
     private CoordinateObject pastCoordinates;
 
@@ -37,7 +37,9 @@ public class Game extends GameEngine {
 
         super.initializeBoard(totalPlayers);
 
-        dice = new Random();
+        dice = Dice.getInstance(); // Initializes Dice singleton class - design pattern
+
+        super.initializeBoard(totalPlayers);
 
         console.introduce(totalPlayers, board);
         this.initializePlayers(totalPlayers);
@@ -48,7 +50,7 @@ public class Game extends GameEngine {
     @Override
     protected void update() {
         IPlayer currentPlayer = players.get(0);
-        int moveNumber = currentPlayer.rollDice(dice);
+        int moveNumber = dice.roll();
         console.print("Player " + currentPlayer.getSymbol() + " rolled " + moveNumber + "!");
         boolean shouldRotate = true;
         Integer id;
@@ -118,6 +120,16 @@ public class Game extends GameEngine {
 
     @Override
     protected void visualise() {
+        ScoreCalculatorVisitor scoreCalculator = new ScoreCalculatorVisitor();
+
+        // Let the visitor calculate the score for all players
+        for (IPlayer player : players) {
+            player.acceptVisitor(scoreCalculator);
+        }
+
+        int totalScore = scoreCalculator.getTotalScore();
+        console.print("Total score of all players: " + totalScore);
+
         ArrayList<ISymbol> allOutSymbols = players.stream()
                 .flatMap(player -> player.getSymbolsOutOfBase().stream())
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -126,7 +138,7 @@ public class Game extends GameEngine {
                 .flatMap(player -> player.getSymbolsInBase().stream())
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        BoardModifier.modifyBoard(board, allOutSymbols, allinSymbols, pastCoordinates);
+        boardFacade.modifyBoard(allOutSymbols, allinSymbols, pastCoordinates);
 
         ArrayList<IPlayer> scoredPlayers = players
                 .stream()
@@ -136,7 +148,8 @@ public class Game extends GameEngine {
             scoredPlayers.sort(Comparator.comparingInt(IPlayer::getPoints));
             console.printScoreboard(scoredPlayers);
         }
-        console.printBoard(board);
+
+        console.printBoard(boardFacade.getBoard());
         console.print("\n");
     }
 

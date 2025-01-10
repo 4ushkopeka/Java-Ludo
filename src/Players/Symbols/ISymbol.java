@@ -1,8 +1,10 @@
 package Players.Symbols;
 
+import Game.Visitors.Visitor;
 import Players.Helpers.CoordinateObject;
 
 public interface ISymbol {
+    void acceptVisitor(Visitor visitor);
 
     String getSymbol();
 

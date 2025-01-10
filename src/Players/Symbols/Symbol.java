@@ -1,5 +1,6 @@
 package Players.Symbols;
 
+import Game.Visitors.Visitor;
 import Players.Helpers.CoordinateObject;
 
 public class Symbol implements ISymbol{
@@ -29,6 +30,11 @@ public class Symbol implements ISymbol{
         this.posY = posY;
         canTurnToComplete = false;
         this.id = id;
+    }
+
+    @Override
+    public void acceptVisitor(Visitor visitor) {
+        visitor.visitSymbol(this);
     }
 
     @Override

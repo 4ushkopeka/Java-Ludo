@@ -1,5 +1,7 @@
 package Players;
 
+import Game.Visitors.Visitor;
+
 import Players.Helpers.CoordinateObject;
 import Players.Helpers.MoveCalculator;
 import Players.Symbols.ISymbol;
@@ -27,8 +29,8 @@ public class Player implements IPlayer{
     }
 
     @Override
-    public int rollDice(Random dice) {
-        return dice.nextInt(6) + 1;
+    public void acceptVisitor(Visitor visitor) {
+        visitor.visitPlayer(this);
     }
 
     @Override
