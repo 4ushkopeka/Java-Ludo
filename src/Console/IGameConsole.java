@@ -5,9 +5,9 @@ import Players.IPlayer;
 import java.util.ArrayList;
 
 public interface IGameConsole {
-    void print(String message);
+    void printGameMessage(String message);
 
-    String read();
+    String readGameCommand();
 
     void printBoard(String[][] board);
 
