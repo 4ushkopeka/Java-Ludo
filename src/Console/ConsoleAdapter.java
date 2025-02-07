@@ -4,7 +4,7 @@ import Players.IPlayer;
 import Game.Helpers.GameObserver;
 import java.util.ArrayList;
 
-public class ConsoleAdapter implements IGameConsole, GameObserver { // Now also an Observer
+public class ConsoleAdapter implements IGameConsole, GameObserver {
 
     private final Console console;
 
@@ -67,9 +67,8 @@ public class ConsoleAdapter implements IGameConsole, GameObserver { // Now also 
         }
     }
 
-    // 🔹 NEW: Observer method
     @Override
     public void update(String message) {
-        printGameMessage(message); // Sends updates to console when notified
+        printGameMessage(message);
     }
 }
