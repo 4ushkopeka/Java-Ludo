@@ -1,11 +1,10 @@
 package Game;
 
 import Console.ConsoleAdapter;
-import Console.IGameConsole;
 import Game.Helpers.BoardFacade;
 
 public abstract class GameEngine {
-    protected IGameConsole console;
+    protected ConsoleAdapter console;
     protected BoardFacade boardFacade;
     protected String[][] board;
 
@@ -35,8 +34,8 @@ public abstract class GameEngine {
 
     protected void initializeBoard(int players) {
         if (players < 2 || players > 4) {
-            console.print("Invalid number of players!");
-            console.print("Game is closing.");
+            console.printGameMessage("Invalid number of players!");
+            console.printGameMessage("Game is closing.");
             System.exit(0);
         }
 

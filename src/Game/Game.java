@@ -9,7 +9,6 @@ import Players.Symbols.ISymbol;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Game extends GameEngine {
@@ -32,8 +31,8 @@ public class Game extends GameEngine {
     public Game() {
         super();
 
-        console.print("Choose amount of players(2-4): ");
-        int totalPlayers = Integer.parseInt(console.read());
+        console.printGameMessage("Choose amount of players(2-4): ");
+        int totalPlayers = Integer.parseInt(console.readGameCommand());
 
         super.initializeBoard(totalPlayers);
 
@@ -51,7 +50,7 @@ public class Game extends GameEngine {
     protected void update() {
         IPlayer currentPlayer = players.get(0);
         int moveNumber = dice.roll();
-        console.print("Player " + currentPlayer.getSymbol() + " rolled " + moveNumber + "!");
+        console.printGameMessage("Player " + currentPlayer.getSymbol() + " rolled " + moveNumber + "!");
         boolean shouldRotate = true;
         Integer id;
 
@@ -69,8 +68,8 @@ public class Game extends GameEngine {
                 shouldRotate = false;
             }
             if (currentPlayer.checkFinish(id)) {
-                console.print("Player " + currentPlayer.getSymbol() + " scored!");
-                console.print("Their current score is:" + currentPlayer.getPoints());
+                console.printGameMessage("Player " + currentPlayer.getSymbol() + " scored!");
+                console.printGameMessage("Their current score is:" + currentPlayer.getPoints());
                 shouldRotate = false;
             }
         }
@@ -96,7 +95,7 @@ public class Game extends GameEngine {
             ISymbol enemySymbol = player.getSymbolByCoordinates(currentSymbol.getCoordinates());
             if (enemySymbol != null && !onSafeTile(enemySymbol.getCoordinates())) {
                 enemySymbol.kick();
-                console.print("Player "
+                console.printGameMessage("Player "
                         + currentSymbol.getSymbol()
                         + " kicked player "
                         + enemySymbol.getSymbol()
@@ -128,7 +127,7 @@ public class Game extends GameEngine {
         }
 
         int totalScore = scoreCalculator.getTotalScore();
-        console.print("Total score of all players: " + totalScore);
+        console.printGameMessage("Total score of all players: " + totalScore);
 
         ArrayList<ISymbol> allOutSymbols = players.stream()
                 .flatMap(player -> player.getSymbolsOutOfBase().stream())
@@ -150,7 +149,7 @@ public class Game extends GameEngine {
         }
 
         console.printBoard(boardFacade.getBoard());
-        console.print("\n");
+        console.printGameMessage("\n");
     }
 
     /**
@@ -162,13 +161,17 @@ public class Game extends GameEngine {
      * or <code>null</code> if they make a mistake.
      */
     private Integer rolled6Choices(ArrayList<ISymbol> outSymbols, IPlayer currentPlayer, int moveNumber) {
-        if (outSymbols.size() == 4) {
-            console.print("Choose which symbol to move(Press 1 or 2 or 3 or 4).");
+        if (outSymbols.size() == 4 - currentPlayer.getPoints()) {
+            console.printGameMessage("Choose which symbol to move(Press " + outSymbols
+                    .stream()
+                    .map(ISymbol::getId)
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(" or ")) + ").");
             return move(outSymbols, currentPlayer, moveNumber);
         } else if (!outSymbols.isEmpty()) {
-            console.print("You have symbol(s) out. Press 1 if you want to move on, or 2 to bring out another one.");
-            if (console.read().equals("1")) {
-                console.print("Choose which symbol to move(Press " + outSymbols
+            console.printGameMessage("You have symbol(s) out. Press 1 if you want to move on, or 2 to bring out another one.");
+            if (console.readGameCommand().equals("1")) {
+                console.printGameMessage("Choose which symbol to move(Press " + outSymbols
                         .stream()
                         .map(ISymbol::getId)
                         .map(String::valueOf)
@@ -194,13 +197,13 @@ public class Game extends GameEngine {
      * if the player did not move anything(made a mistake).
      */
     private Integer move(ArrayList<ISymbol> outSymbols, IPlayer currentPlayer, int moveNumber) {
-        int id = Integer.parseInt(console.read());
+        int id = Integer.parseInt(console.readGameCommand());
         if (outSymbols.stream().map(ISymbol::getId).toList().contains(id)) {
             pastCoordinates = currentPlayer.getSymbolById(id).getCoordinates();
             currentPlayer.move(id, moveNumber);
             return id;
         }
-        console.print("Wrong id. You miss this opportunity.");
+        console.printGameMessage("Wrong id. You miss this opportunity.");
         return null;
     }
 
@@ -215,16 +218,16 @@ public class Game extends GameEngine {
      */
     private Integer rolledLessThan6Choices(ArrayList<ISymbol> outSymbols, IPlayer currentPlayer, int moveNumber) {
         if (!outSymbols.isEmpty()) {
-            console.print("You have " + outSymbols.size() + " symbol(s) out.");
-            console.print("Their ids are respectively: " + outSymbols
+            console.printGameMessage("You have " + outSymbols.size() + " symbol(s) out.");
+            console.printGameMessage("Their ids are respectively: " + outSymbols
                     .stream()
                     .map(ISymbol::getId)
                     .map(String::valueOf)
                     .collect(Collectors.joining(", ")) + ".");
-            console.print("Choose the symbol to move:");
+            console.printGameMessage("Choose the symbol to move:");
             return move(outSymbols, currentPlayer, moveNumber);
         } else {
-            console.print("You have no moves! Moving on.");
+            console.printGameMessage("You have no moves! Moving on.");
             return null;
         }
     }

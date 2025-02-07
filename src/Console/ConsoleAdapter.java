@@ -2,92 +2,82 @@ package Console;
 
 import Players.IPlayer;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * This class aims to adapt the spread out console functions into one. It further adds trivial
- * methods for the game.
+ * This class aims to adapt the primitive console interface to the necessities of the game.
  */
 public class ConsoleAdapter implements IGameConsole {
-    private final BufferedReader reader;
+
+    private final Console console;
 
     public ConsoleAdapter() {
-        this.reader = new BufferedReader(new InputStreamReader(System.in));
+        this.console = new Console();
     }
 
     /**
-     * Prints a line of text to the console.
+     * Prints an in-game message.
+     * @param message the message to print
      */
     @Override
-    public void print(String message) {
-        System.out.println(message);
+    public void printGameMessage(String message) {
+        this.console.print(message);
     }
 
     /**
-     * Reads a line of text to the console.
-     * <p>
-     * Note: All input received from the console is in string.
-     * </p>
+     * Reads a command from the console interface.
+     * @return a string representing the action to be undertaken by the game
      */
     @Override
-    public String read() {
-        try {
-            return reader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public String readGameCommand() {
+       return this.console.read();
     }
 
     /**
-     * Prints the whole board with the players.
+     * Prints the game bord.
+     * @param board a 2x2 string matrix
      */
     @Override
     public void printBoard(String[][] board) {
-        for (String[] strings : board) {
-            for (String string : strings) System.out.print(string);
-            System.out.println();
-        }
+        this.console.printMatrix(board);
     }
 
     /**
      * Introduces the game rules and prints the initial state of the board.
-     * @param playerCount the amount of players. Necessary to tell who is who
+     * @param totalPlayers the amount of players. Necessary to tell who is who
      * @param board the board to print
      */
-    public void introduce(int playerCount, String[][] board) {
-        this.print("Welcome to the game of Ludo!");
-        this.print("Player One is: \uD83D\uDD37");
-        this.print("Player Two is: \uD83C\uDF4F");
-        if (playerCount >= 3) {
-            this.print("Player Three is: ⭐");
+    @Override
+    public void introduce(int totalPlayers, String[][] board) {
+        this.console.print("Welcome to the game of Ludo!");
+        this.console.print("Player One is: \uD83D\uDD37");
+        this.console.print("Player Two is: \uD83C\uDF4F");
+        if (totalPlayers >= 3) {
+            this.console.print("Player Three is: ⭐");
         }
-        if (playerCount == 4) {
-            this.print("Player Four is: \uD83C\uDF4E");
+        if (totalPlayers == 4) {
+            this.console.print("Player Four is: \uD83C\uDF4E");
         }
 
-        this.print("");
+        this.console.print("");
 
-        this.print("Rules:");
-        this.print("If a player reaches ⏹️, they gain a point and get to roll the dice again. The first player");
-        this.print("to reach these tiles with all their symbols wins.");
-        this.print("If a player lands on a tile that is occupied by another");
-        this.print("player, they kick the current player to their base and keep the spot.");
-        this.print("The current player also gets to roll the dice again.");
-        this.print("On ⬛ a player cannot be kicked. These tiles are safe.");
-        this.print("Players get to roll the dice again if they roll 6.");
-        this.print("To get out of base, a player must roll a 6.");
-        this.print("Have fun!");
+        this.console.print("Rules:");
+        this.console.print("If a player reaches ⏹️, they gain a point and get to roll the dice again. The first player");
+        this.console.print("to reach these tiles with all their symbols wins.");
+        this.console.print("If a player lands on a tile that is occupied by another");
+        this.console.print("player, they kick the current player to their base and keep the spot.");
+        this.console.print("The current player also gets to roll the dice again.");
+        this.console.print("On ⬛ a player cannot be kicked. These tiles are safe.");
+        this.console.print("Players get to roll the dice again if they roll 6.");
+        this.console.print("To get out of base, a player must roll a 6.");
+        this.console.print("Have fun!");
 
-        print("");
+        this.console.print("");
 
-        this.print("Board:");
-        this.printBoard(board);
+        this.console.print("Board:");
+        this.console.printMatrix(board);
 
-        print("");
+        this.console.print("");
     }
 
     /**
@@ -96,14 +86,13 @@ public class ConsoleAdapter implements IGameConsole {
      */
     @Override
     public void printScoreboard(ArrayList<IPlayer> players) {
-        this.print("Scoreboard:");
+        this.console.print("Scoreboard:");
         for (IPlayer player : players) {
-            this.print("Player " + player.getSymbol() + ": " + player.getPoints());
+            this.console.print("Player " + player.getSymbol() + ": " + player.getPoints());
             if (player.getPoints() == 4) {
-                print("");
-                this.print("Player " + player.getSymbol() + " wins!");
+                console.print("");
+                this.console.print("Player " + player.getSymbol() + " wins!");
             }
         }
     }
 }
-
