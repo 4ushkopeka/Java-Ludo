@@ -1,13 +1,10 @@
 package Console;
 
 import Players.IPlayer;
-
+import Game.Helpers.GameObserver;
 import java.util.ArrayList;
 
-/**
- * This class aims to adapt the primitive console interface to the necessities of the game.
- */
-public class ConsoleAdapter implements IGameConsole {
+public class ConsoleAdapter implements IGameConsole, GameObserver {
 
     private final Console console;
 
@@ -15,38 +12,21 @@ public class ConsoleAdapter implements IGameConsole {
         this.console = new Console();
     }
 
-    /**
-     * Prints an in-game message.
-     * @param message the message to print
-     */
     @Override
     public void printGameMessage(String message) {
         this.console.print(message);
     }
 
-    /**
-     * Reads a command from the console interface.
-     * @return a string representing the action to be undertaken by the game
-     */
     @Override
     public String readGameCommand() {
-       return this.console.read();
+        return this.console.read();
     }
 
-    /**
-     * Prints the game bord.
-     * @param board a 2x2 string matrix
-     */
     @Override
     public void printBoard(String[][] board) {
         this.console.printMatrix(board);
     }
 
-    /**
-     * Introduces the game rules and prints the initial state of the board.
-     * @param totalPlayers the amount of players. Necessary to tell who is who
-     * @param board the board to print
-     */
     @Override
     public void introduce(int totalPlayers, String[][] board) {
         this.console.print("Welcome to the game of Ludo!");
@@ -58,9 +38,7 @@ public class ConsoleAdapter implements IGameConsole {
         if (totalPlayers == 4) {
             this.console.print("Player Four is: \uD83C\uDF4E");
         }
-
         this.console.print("");
-
         this.console.print("Rules:");
         this.console.print("If a player reaches ⏹️, they gain a point and get to roll the dice again. The first player");
         this.console.print("to reach these tiles with all their symbols wins.");
@@ -71,19 +49,12 @@ public class ConsoleAdapter implements IGameConsole {
         this.console.print("Players get to roll the dice again if they roll 6.");
         this.console.print("To get out of base, a player must roll a 6.");
         this.console.print("Have fun!");
-
         this.console.print("");
-
         this.console.print("Board:");
         this.console.printMatrix(board);
-
         this.console.print("");
     }
 
-    /**
-     * Prints the Scoreboard of the game.
-     * @param players the players whose score is more than 0
-     */
     @Override
     public void printScoreboard(ArrayList<IPlayer> players) {
         this.console.print("Scoreboard:");
@@ -94,5 +65,10 @@ public class ConsoleAdapter implements IGameConsole {
                 this.console.print("Player " + player.getSymbol() + " wins!");
             }
         }
+    }
+
+    @Override
+    public void update(String message) {
+        printGameMessage(message);
     }
 }

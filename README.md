@@ -11,6 +11,7 @@
     - [Facade Design Pattern](#facade-design-pattern)
     - [Dice Singleton Pattern](#dice-singleton-pattern)
     - [Visitor Pattern in the Game](#visitor-pattern-in-the-game)
+    - [Observer Pattern in the Game](#observer-pattern-in-the-game)
 - [How to Run](#how-to-run)
 - [Authors](#authors)
 - [License](#license)
@@ -42,9 +43,9 @@ The **Adapter Pattern** is a **structural design pattern** that allows objects w
 In our project, the **Adapter Pattern** was implemented to ensure flexibility between the **console-based interface** and the **game logic**. This separation simplifies unit testing, improves reusability, and supports the addition of new input/output systems without modifying the core game logic.
 
 ### Implementation Overview
-- **ConsoleAdapter.java** serves as the adapter, translating method calls between the **IGameConsole** interface and the console's specific implementation.
-- **IGameConsole.java** defines the required methods for input and output operations.
-- The **ConsoleAdapter** class implements **IGameConsole**, providing methods such as `print()` and `readInput()` to interact with users via the console.
+- The Console class provides low-level console operations.
+- Wraps Console, adapting its methods to match IGameConsole.
+- The game interacts with ConsoleAdapter instead of directly using Console, ensuring flexibility.
 
 ---
 
@@ -131,6 +132,24 @@ In our case, the visitor is used during operations like calculating scores for a
 * Visitor Interface - Defines methods for visiting different types of elements, such as IPlayer and ISymbol.
 * Concrete Visitors - Implement specific operations, like calculating total scores (ScoreCalculatorVisitor) or checking player states (StateCheckerVisitor).
 * Accept Method - Added to IPlayer and ISymbol interfaces to allow them to accept a Visitor.
+
+---
+
+## Observer Pattern in the Game
+### What is it?
+The Observer Pattern is a behavioral design pattern that establishes a one-to-many relationship between objects. When the subject (observable) changes state, all attached observers are automatically notified.
+![images![img.png](img.png)/visitor.png](images/visitor.png)
+
+### Why Use it?
+The Observer Pattern improves flexibility and maintainability by:
+* Decoupling game logic from UI updates
+* Keeping the GameEngine class focused on core game mechanics while external observers handle event updates.
+
+### Implementation Overview
+* Observer Interface - Defines a contract for all observers who wish to receive game updates.
+* GameEngine -  Manages a list of observers and notifies them of updates.
+* ConsoleAdapter - Receives and prints game updates.
+* Game - registers the Observer in the constructor, notifies the observers in update(), notifying observers in end(). 
 
 ---
 
