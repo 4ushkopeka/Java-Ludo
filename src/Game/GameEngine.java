@@ -10,7 +10,7 @@ public abstract class GameEngine {
     protected ConsoleAdapter console;
     protected BoardFacade boardFacade;
     protected String[][] board;
-    private final List<GameObserver> observers = new ArrayList<>(); // List of observers
+    private final List<GameObserver> observers = new ArrayList<>();
 
     public GameEngine() {
         console = new ConsoleAdapter();

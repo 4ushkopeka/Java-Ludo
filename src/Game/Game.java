@@ -31,7 +31,6 @@ public class Game extends GameEngine {
     public Game() {
         super();
 
-        // ✅ Attach ConsoleAdapter as an Observer
         ConsoleAdapter consoleAdapter = new ConsoleAdapter();
         this.addObserver(consoleAdapter);
 
@@ -40,7 +39,7 @@ public class Game extends GameEngine {
 
         super.initializeBoard(totalPlayers);
 
-        dice = Dice.getInstance(); // Initializes Dice singleton class - design pattern
+        dice = Dice.getInstance();
 
         super.initializeBoard(totalPlayers);
 
@@ -55,7 +54,6 @@ public class Game extends GameEngine {
         IPlayer currentPlayer = players.get(0);
         int moveNumber = dice.roll();
 
-        // ✅ Notify Observers when a player rolls the dice
         notifyObservers("Player " + currentPlayer.getSymbol() + " rolled " + moveNumber + "!");
 
         boolean shouldRotate = true;
